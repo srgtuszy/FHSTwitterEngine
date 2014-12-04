@@ -346,7 +346,7 @@ id removeNull(id rootObject) {
 }
 
 - (NSString *)base64Encode {
-    int outLength = ((((self.length*4)/3)/4)*4)+(((self.length*4)/3)%4?4:0);
+    NSInteger outLength = ((((self.length*4)/3)/4)*4)+(((self.length*4)/3)%4?4:0);
     const char *inputBuffer = self.bytes;
     char *outputBuffer = malloc(outLength+1);
     outputBuffer[outLength] = 0;
@@ -1400,7 +1400,7 @@ id removeNull(id rootObject) {
     
     [req setHTTPBody:body];
     
-    [req setValue:[NSString stringWithFormat:@"%d",body.length] forHTTPHeaderField:@"Content-Length"];
+    [req setValue:[NSString stringWithFormat:@"%lu",(unsigned long)body.length] forHTTPHeaderField:@"Content-Length"];
     
     NSError *error = nil;
     NSHTTPURLResponse *response = nil;
@@ -1542,16 +1542,16 @@ id removeNull(id rootObject) {
         return [NSArray arrayWithObjects:initialString, nil];
     }
     
-    int offset = 0;
-    int remainder = fmod(array.count, 100);
-    int numberOfStrings = (array.count-remainder)/100;
+    NSInteger offset = 0;
+    NSInteger remainder = fmod(array.count, 100);
+    NSInteger numberOfStrings = (array.count-remainder)/100;
     
     NSMutableArray *reqStrs = [NSMutableArray array];
     
     for (int i = 1; i <= numberOfStrings; ++i) {
         NSString *ninetyNinththItem = (NSString *)[array objectAtIndex:(i*100)-1];
         NSRange range = [initialString rangeOfString:ninetyNinththItem];
-        int endOffset = range.location+range.length;
+        NSInteger endOffset = range.location+range.length;
         NSRange rangeOfAString = NSMakeRange(offset, endOffset-offset);
         offset = endOffset;
         NSString *endResult = [initialString fhs_stringWithRange:rangeOfAString];
@@ -1686,8 +1686,8 @@ id removeNull(id rootObject) {
     [request setValue:oauthHeader forHTTPHeaderField:@"Authorization"];
 }
 
-- (int)parameterLengthForURL:(NSString *)url params:(NSMutableDictionary *)params {
-    int length = url.length;
+- (NSInteger)parameterLengthForURL:(NSString *)url params:(NSMutableDictionary *)params {
+    NSInteger length = url.length;
 
     for (NSString *key in params) {
         length += [key fhs_URLEncode].length;

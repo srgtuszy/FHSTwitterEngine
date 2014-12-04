@@ -119,7 +119,7 @@
                 
                 if ([returned isKindOfClass:[NSError class]]) {
                     NSError *error = (NSError *)returned;
-                    title = [NSString stringWithFormat:@"Error %d",error.code];
+                    title = [NSString stringWithFormat:@"Error %ld",(long)error.code];
                     message = error.localizedDescription;
                 } else {
                     NSLog(@"%@",returned);
@@ -150,7 +150,7 @@
                     
                     dispatch_sync(dispatch_get_main_queue(), ^{
                         @autoreleasepool {
-                            NSString *title = returnValue?[NSString stringWithFormat:@"Error %d",returnValue.code]:@"Success";
+                            NSString *title = returnValue?[NSString stringWithFormat:@"Error %ld",(long)returnValue.code]:@"Success";
                             NSString *message = returnValue?returnValue.localizedDescription:@"You have successfully logged in via XAuth";
                             UIAlertView *av = [[UIAlertView alloc]initWithTitle:title message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
                             [av show];
